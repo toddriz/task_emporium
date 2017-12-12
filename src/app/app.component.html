@@ -1,14 +1,50 @@
-<div *ngIf="afAuth.authState | async; let user; else showLogin">
-    <h1>Hello {{ user.displayName }}!</h1>
-    <button (click)="logout()">Logout</button>
-</div>
-<ng-template #showLogin>
-    <p>Please login.</p>
-    <button (click)="login()">Login with Google</button>
-</ng-template>
+<mat-toolbar color="primary">
+    <mat-toolbar-row class="header">
+        <span>Tasks Emporium</span>
+        <div class="header" *ngIf="user">
+            <h1>Logged In As {{ user.displayName }}</h1>
+            <img class="user-avatar" [src]="user.photoURL" alt="">
+            <button mat-button (click)="logout()">Logout</button>
+        </div>
+        <!-- <div class="header" *ngIf="!user">
+            <button mat-button (click)="login()">Login with GitHub</button>
+        </div> -->
+    </mat-toolbar-row>
+</mat-toolbar>
+<div *ngIf="user && !loading" class="tasks-content">
+    <mat-card class="new-task-card">
+        <mat-card-title>New Task</mat-card-title>
 
-<ul>
-    <li *ngFor="let item of items | async">
-        {{ item.name }}
-    </li>
-</ul>
+        <form class="new-task-form">
+            <div class="new-task-form-first-row">
+                <mat-form-field class="">
+                    <input matInput placeholder="Task Title" [(ngModel)]="newTaskTitle" [ngModelOptions]="{standalone: true}" required>
+                </mat-form-field>
+                <mat-checkbox class="priority-checkbox" (click)="newTaskPriority = !newTaskPriority">Priority</mat-checkbox>
+            </div>
+
+            <mat-form-field class="">
+                <textarea matInput rows="6" placeholder="Description" [(ngModel)]="newTaskDescription" [ngModelOptions]="{standalone: true}"
+                    required></textarea>
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="addTask()" class="add-task-button">Add Task</button>
+        </form>
+    </mat-card>
+    <mat-card class="tasks-list-card">
+        <mat-card-title>Tasks List</mat-card-title>
+        <ul>
+            <li *ngFor="let task of tasks">
+                <div [class.priority-task]="task.priority">
+                    {{task.title}} {{task.description}}
+                    <button mat-icon-button color="warn">
+                        <mat-icon (click)="deleteTask(task)" aria-label="icon-button with a dumpster icon">delete</mat-icon>
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </mat-card>
+</div>
+<mat-card *ngIf="!user && !loading" class="login-card">
+    <img class="github-login-logo" src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png">
+    <button mat-raised-button class="github-login-button" color="primary" (click)="login()">Login with GitHub</button>
+</mat-card>
