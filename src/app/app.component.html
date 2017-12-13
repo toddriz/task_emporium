@@ -2,13 +2,10 @@
     <mat-toolbar-row class="header">
         <span>Tasks Emporium</span>
         <div class="header" *ngIf="user">
-            <h1>Logged In As {{ user.displayName }}</h1>
+            <div class="logged-in-user-name">{{ user.displayName }}</div>
             <img class="user-avatar" [src]="user.photoURL" alt="">
             <button mat-button (click)="logout()">Logout</button>
         </div>
-        <!-- <div class="header" *ngIf="!user">
-            <button mat-button (click)="login()">Login with GitHub</button>
-        </div> -->
     </mat-toolbar-row>
 </mat-toolbar>
 <div *ngIf="user && !loading" class="tasks-content">
@@ -32,13 +29,14 @@
     </mat-card>
     <mat-card class="tasks-list-card">
         <mat-card-title>Tasks List</mat-card-title>
-        <ul>
+        <ul class="tasks-list">
             <li *ngFor="let task of tasks">
                 <div [class.priority-task]="task.priority">
-                    {{task.title}} {{task.description}}
+                    {{task.title}} - {{task.description}}
                     <button mat-icon-button color="warn">
                         <mat-icon (click)="deleteTask(task)" aria-label="icon-button with a dumpster icon">delete</mat-icon>
                     </button>
+                    <hr>
                 </div>
             </li>
         </ul>

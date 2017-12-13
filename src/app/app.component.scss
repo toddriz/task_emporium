@@ -2,6 +2,11 @@
     display: flex;
     justify-content: space-between;
 
+    .logged-in-user-name {
+        margin-top: 4px;
+        margin-right: 8px;
+    }
+
     .user-avatar {
         height: 40px;
     }
@@ -45,9 +50,14 @@
     .tasks-list-card {
         width: 66%;
 
-        .priority-task {
-            font-weight: bold;
+        .tasks-list {
+            list-style: none;
+            font-size: 20px;
+            .priority-task {
+                font-weight: bold;
+            }
         }
+
     }
 }
 
@@ -55,8 +65,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
     max-width: 400px;
+    margin: 10% 35%;
 
     .github-login-logo {
         max-width: 140px;
